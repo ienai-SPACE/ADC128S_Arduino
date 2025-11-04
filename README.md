@@ -1,6 +1,8 @@
 # ADC128S Arduino Library
 
-<a href="https://github.com/ienai-SPACE/ADC128S_Arduino"><img src="https://github.com/ienai-SPACE/ADC128S_Arduino/blob/main/.github/workflows/badge.svg" alt="Library Status"></a>
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/ienai-SPACE/ADC128S_Arduino)
+[![Arduino](https://img.shields.io/badge/platform-Arduino-00979D.svg)](https://www.arduino.cc/)
+[![License](https://img.shields.io/badge/license-Open%20Source-green.svg)](https://github.com/ienai-SPACE/ADC128S_Arduino)
 
 This library provides an easy-to-use interface for controlling the **ADC128S** 8-channel, 12-bit analog-to-digital converter (ADC) over SPI. The library features a clean hardware abstraction layer that makes it easy to port to different platforms while maintaining full compatibility with Arduino.
 
