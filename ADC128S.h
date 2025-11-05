@@ -33,6 +33,7 @@ public:
 class ADC128S {
 private:
     i_ADC128S& hw; /**< Reference to the hardware interface */
+    uint8_t _lastChannelReaden;
 
 public:
     /**

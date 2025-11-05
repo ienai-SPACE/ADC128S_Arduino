@@ -4,7 +4,9 @@
  * ADC128S class implementation
  ******************************/
 
-ADC128S::ADC128S(i_ADC128S& hardware) : hw(hardware) {}
+ADC128S::ADC128S(i_ADC128S& hardware) : hw(hardware) {
+    _lastChannelReaden = 0;
+}
 
 void ADC128S::begin() {
     hw.initCS();
@@ -29,17 +31,25 @@ uint16_t ADC128S::readChannel(uint8_t channel) {
     uint8_t lo = 0;
     uint16_t result = 0;
 
+    if (channel >= ADC128S_NUM_CHANNELS) {
+        return 0; // Invalid channel
+    }
+
     hw.selectCS();
 
-    //Prepare the channel to be readen
-    hw.SPI_transfer(channel << 3);
-    hw.SPI_transfer(0x00);
+    if (channel != _lastChannelReaden) {
+        //Dummy read to set the channel
+        hw.SPI_transfer(channel << 3);
+        hw.SPI_transfer(0x00);
+    }
 
-    //reade the channel
+    //read the channel
     hi = hw.SPI_transfer(channel << 3);
     lo = hw.SPI_transfer(0x00);
 
     hw.deselectCS();
+
+    _lastChannelReaden = channel;
 
     result = ((hi << 8) | lo) & 0x0FFF; // Combine into 12-bit result (mask off any garbage bits)
     result += 1; // Lab offset correction
@@ -53,20 +63,23 @@ void ADC128S::readAll(uint16_t* buffer, size_t length) {
     uint8_t hi = 0;
     uint8_t lo = 0;
 
+    if (buffer == nullptr) 
+    {
+        return; // Null pointer check
+    }
+
+    if (length < ADC128S_NUM_CHANNELS) 
+    {
+        return; // Buffer too small
+    }
+
     hw.selectCS();
 
-    //Prepare the channel to be readen
-    hw.SPI_transfer(0 << 3);
-    hw.SPI_transfer(0x00);
-
-    if (length >= ADC128S_NUM_CHANNELS) 
+    for (uint8_t i = _lastChannelReaden; i < ADC128S_NUM_CHANNELS + _lastChannelReaden; i++)
     {
-        for (uint8_t i = 0; i < ADC128S_NUM_CHANNELS; i++)
-        {
-            hi = hw.SPI_transfer((i + 1) % ADC128S_NUM_CHANNELS << 3); // ends up with channel 0 set
-            lo = hw.SPI_transfer(0x00);
-            buffer [i] = (((hi << 8) | lo) & 0x0FFF) + 1; // combine and make the lab correction
-        }
+        hi = hw.SPI_transfer(((i + 1) % ADC128S_NUM_CHANNELS) << 3); // ends up with channel 0 set
+        lo = hw.SPI_transfer(0x00);
+        buffer [i%ADC128S_NUM_CHANNELS] = (((hi << 8) | lo) & 0x0FFF) + 1; // combine and make the lab correction
     }
 
     hw.deselectCS();
