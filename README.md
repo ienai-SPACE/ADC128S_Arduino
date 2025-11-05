@@ -1,6 +1,6 @@
 # ADC128S Arduino Library
 
-[![Version](https://img.shields.io/badge/version-1.16.0-blue.svg)](https://github.com/ienai-SPACE/ADC128S_Arduino)
+[![Version](https://img.shields.io/badge/version-1.17.0-blue.svg)](https://github.com/ienai-SPACE/ADC128S_Arduino)
 [![Arduino](https://img.shields.io/badge/platform-Arduino-00979D.svg)](https://www.arduino.cc/)
 [![License](https://img.shields.io/badge/license-Open%20Source-green.svg)](https://github.com/ienai-SPACE/ADC128S_Arduino)
 
@@ -42,7 +42,7 @@ This library provides an easy-to-use interface for controlling the **ADC128S** 8
 
 ```ini
 lib_deps = 
-    ienai-SPACE/ADC128S_Arduino@^1.16.0
+    ienai-SPACE/ADC128S_Arduino@^1.17.0
 ```
 
 ## Wiring
@@ -242,4 +242,4 @@ For issues, questions, or contributions, please visit the [GitHub repository](ht
 
 ---
 
-**Version**: 1.16.0
+**Version**: 1.17.0
